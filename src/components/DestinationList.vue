@@ -5,10 +5,12 @@
       <tr>
         <th>Name</th>
         <th>Description</th>
+        <th>Vise</th>
       </tr>
       <tr v-for="destination in destinations" :key="destination.id">
         <td>{{ destination.ime }}</td>
         <td>{{ destination.opis }}</td>
+        <td><router-link :to="'/destination/clanci/' + destination.id">Clanci</router-link></td>
       </tr>
     </table>
   </div>
