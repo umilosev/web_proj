@@ -11,6 +11,7 @@ import ManageDestinationsPage from '../views/ManageDestinationPage.vue';
 import ManageUsersPage from '../views/ManageUsersPage.vue';
 import DestinationList from '../components/DestinationList.vue';
 import ArticleListDestination from "@/components/ArticleListDestination.vue";
+import DirectorPage from "@/views/DirectorPage.vue";
 
 // Use VueRouter plugin
 Vue.use(VueRouter);
@@ -27,6 +28,7 @@ const routes = [
   { path: '/admin/users', component: ManageUsersPage },
   { path: '/destinations', component: DestinationList},
   { path: '/destination/clanci/:id', component: ArticleListDestination},
+  { path: '/director', component: DirectorPage},
 ];
 
 // Create router instance

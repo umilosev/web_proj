@@ -2,12 +2,11 @@
   <div>
     <h2>Login</h2>
     <form @submit.prevent="login">
+      <label>Username:</label>
+      <input type="username" v-model="username" required>
 
-        <label>Username:</label>
-        <input type="username" v-model="username" required>
-
-        <label>Password:</label>
-        <input type="password" v-model="password" required>
+      <label>Password:</label>
+      <input type="password" v-model="password" required>
 
       <button type="submit">Login</button>
     </form>
@@ -16,6 +15,8 @@
 </template>
 
 <script>
+import { jwtDecode } from 'jwt-decode';  // Correct named import
+
 export default {
   data() {
     return {
@@ -32,17 +33,29 @@ export default {
           password: this.password
         });
 
-        // Assuming the response contains a JWT token or some indication of successful login
-        // You may need to adjust this based on your actual response format
         if (response.data.jwt) {
-          // Successful login, navigate to admin page
-          this.$router.push('/admin');
+          const token = response.data.jwt;
+          // Store the JWT in localStorage
+          localStorage.setItem('jwt', token);
+
+          // Decode the JWT to get the role
+          const decoded = jwtDecode(token);
+          const role = decoded.role; // Adjust this if your role key is different
+
+          // Navigate based on the role
+          if (role === 'admin') {
+            this.$router.push('/admin');
+            window.location.reload()
+          } else if (role === 'uredjivac') {
+            this.$router.push('/director');
+            window.location.reload()
+          } else {
+            this.error = 'Invalid role';
+          }
         } else {
-          // Handle invalid credentials or other errors
           this.error = 'Invalid credentials';
         }
       } catch (error) {
-        // Handle network errors or other exceptions
         console.error('Error logging in:', error);
         this.error = 'An error occurred while logging in';
       }
