@@ -3,32 +3,35 @@
     <h2>Articles</h2>
     <button @click="addNew">Add New Article</button>
     <table>
+      <thead>
       <tr>
         <th>Title</th>
         <th>Author</th>
         <th>Date Created</th>
         <th>Actions</th>
       </tr>
+      </thead>
+      <tbody>
       <tr v-for="article in articles" :key="article.id">
-        <td><router-link :to="'/clanak/' + article.id">{{ article.naslov }}</router-link></td>
+        <td><router-link :to="'/admin/articles/' + article.id">{{ article.naslov }}</router-link></td>
         <td>{{ article.autor }}</td>
-        <td>{{ article.vremeKreiranja }}</td>
+        <td>{{ formatDate(article.vremeKreiranja) }}</td>
         <td>
           <button @click="edit(article)">Edit</button>
           <button @click="remove(article.id)">Delete</button>
         </td>
       </tr>
+      </tbody>
     </table>
   </div>
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       articles: [],
-      korisnik: {}
+      korisnik: {} // Assuming this is for user information, but not currently used
     };
   },
   methods: {
@@ -38,10 +41,10 @@ export default {
     edit(article) {
       this.$router.push(`/admin/articles/${article.id}/edit`);
     },
-    async remove(id) {
+    async remove(articleId) {
       try {
-        await this.axios.delete(`/api/clanci/${id}`);
-        window.location.reload();
+        await this.axios.delete(`/api/clanci/${articleId}`);
+        this.articles = this.articles.filter(article => article.id !== articleId); // Update local list
       } catch (error) {
         console.error("There was an error deleting the article:", error);
       }
@@ -50,11 +53,17 @@ export default {
       try {
         const response = await this.axios.get('/api/clanci');
         this.articles = response.data;
-/*        const userResponse = await this.axios.get(`/api/korisnici/${response.data.korisnikId}`);
-        this.korisnik = userResponse.data;*/
+        // Fetch user info if needed
+        // const userResponse = await this.axios.get(`/api/korisnici/${response.data.korisnikId}`);
+        // this.korisnik = userResponse.data;
       } catch (error) {
         console.error("There was an error fetching the articles:", error);
       }
+    },
+    formatDate(dateString) {
+      if (!dateString) return '';
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'});
     }
   },
   mounted() {
@@ -62,3 +71,7 @@ export default {
   }
 };
 </script>
+
+<style>
+/* Add any necessary styles here */
+</style>

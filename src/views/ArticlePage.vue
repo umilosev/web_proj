@@ -6,9 +6,13 @@
     <p>Created at: {{ formatDate(article.vremeKreiranja) }}</p>
 
     <h2>Comments</h2>
-    <div v-for="comment in comments" :key="comment.id">
+    <div v-for="(comment, index) in paginatedComments" :key="index">
       <p><strong>{{ comment.autorKomentara }}</strong>: {{ comment.tekst }}</p>
       <p>Posted at: {{ formatDate(comment.datumKreiranja) }}</p>
+    </div>
+
+    <div v-if="pages.length > 1">
+      <button v-for="page in pages" :key="page" @click="changePage(page)" :disabled="page === currentPage">{{ page }}</button>
     </div>
 
     <CommentForm :articleId="article.id" @comment-added="fetchComments" />
@@ -27,39 +31,52 @@ export default {
     return {
       article: {},
       comments: [],
-      autor:{},
+      pageSize: 10, // Number of comments per page
+      currentPage: 1,
     };
   },
   async mounted() {
-    const articleId = this.$route.params.id; // Get the article id from route params
+    const articleId = this.$route.params.id;
     await this.fetchArticleDetails(articleId);
     await this.fetchComments(articleId);
+  },
+  computed: {
+    paginatedComments() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      return this.comments.slice(startIndex, startIndex + this.pageSize);
+    },
+    totalPages() {
+      return Math.ceil(this.comments.length / this.pageSize);
+    },
+    pages() {
+      return Array.from({ length: this.totalPages }, (_, index) => index + 1);
+    },
   },
   methods: {
     async fetchArticleDetails(articleId) {
       try {
         const articleResponse = await this.$axios.get(`api/clanci/${articleId}`);
         this.article = articleResponse.data;
-        const autorResponse = await this.$axios.get(`/api/korisnici/${articleResponse.data.korisnikId}`)
-        this.autor = autorResponse.data;
       } catch (error) {
-        console.error("Došlo je do greške prilikom preuzimanja detalja članka:", error);
+        console.error("Error fetching article details:", error);
       }
     },
-    async fetchComments() {
+    async fetchComments(articleId) {
       try {
-        const articleId = this.$route.params.id;
         const commentsResponse = await axios.get(`http://localhost:8081/api/komentari/clanak/${articleId}`);
         this.comments = commentsResponse.data;
       } catch (error) {
-        console.error("Došlo je do greške prilikom preuzimanja komentara:", error);
+        console.error("Error fetching comments:", error);
       }
     },
     formatDate(dateArray) {
       if (!dateArray) return '';
       const [year, month, day, hour, minute] = dateArray;
       return `${day}-${month}-${year} ${hour}:${minute}`;
-    }
+    },
+    changePage(page) {
+      this.currentPage = page;
+    },
   }
 };
 </script>
