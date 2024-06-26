@@ -8,10 +8,9 @@
         <th>Date Created</th>
       </tr>
       <tr v-for="article in articles" :key="article.id">
-        <td>{{ article.naslov }}</td>
-        <td>{{ article.korisnikId }}</td>
+        <td><router-link :to="'/clanak/' + article.id">{{ article.naslov }}</router-link></td>
+        <td>{{ article.autor }}</td>
         <td>{{article.vremeKreiranja}}</td>
-        <td><router-link :to="'/clanak/' + article.id">Pročitaj više</router-link></td>
       </tr>
     </table>
   </div>

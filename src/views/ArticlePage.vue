@@ -2,7 +2,7 @@
   <div>
     <h1>{{ article.naslov }}</h1>
     <p>{{ article.tekst }}</p>
-    <p>Author: {{ autor.username }}</p>
+    <p>Author: {{ article.autor }}</p>
     <p>Created at: {{ formatDate(article.vremeKreiranja) }}</p>
 
     <h2>Comments</h2>

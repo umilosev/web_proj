@@ -10,8 +10,8 @@
         <th>Actions</th>
       </tr>
       <tr v-for="article in articles" :key="article.id">
-        <td>{{ article.naslov }}</td>
-        <td>{{ article.korisnikId }}</td>
+        <td><router-link :to="'/clanak/' + article.id">{{ article.naslov }}</router-link></td>
+        <td>{{ article.autor }}</td>
         <td>{{ article.vremeKreiranja }}</td>
         <td>
           <button @click="edit(article)">Edit</button>
