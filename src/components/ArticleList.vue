@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
   data() {
@@ -41,7 +40,7 @@ export default {
     },
     async remove(id) {
       try {
-        await axios.delete(`/api/clanci/${id}`);
+        await this.axios.delete(`/api/clanci/${id}`);
         window.location.reload();
       } catch (error) {
         console.error("There was an error deleting the article:", error);
