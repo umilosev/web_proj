@@ -1,39 +1,18 @@
 <template>
   <div>
-    <h1>Najnoviji clanci</h1>
-    <div v-for="clanak in paginatedArticles" :key="clanak.id">
-      <h2>{{ clanak.naslov }}</h2>
-      <p>{{ clanak.isecak }}</p>
-      <router-link :to="'/clanak/' + clanak.id">Pročitaj više</router-link>
-    </div>
-    <div>
-      <button @click="prevPage" :disabled="currentPage === 1">Prethodna</button>
-      <span>Strana {{ currentPage }} od {{ totalPages }}</span>
-      <button @click="nextPage" :disabled="currentPage === totalPages">Sledeća</button>
-    </div>
+    <PaginatedGeneralArticleList :articles="latestArticles" title="Najnoviji clanci" />
   </div>
 </template>
 
-
 <script>
+import PaginatedGeneralArticleList from "@/components/PaginatedGeneralArticleList";
 
 export default {
+  components: { PaginatedGeneralArticleList },
   data() {
     return {
-      latestArticles: [],
-      currentPage: 1,
-      pageSize: 5 // Number of articles per page
+      latestArticles: []
     };
-  },
-  computed: {
-    paginatedArticles() {
-      const start = (this.currentPage - 1) * this.pageSize;
-      const end = start + this.pageSize;
-      return this.latestArticles.slice(start, end);
-    },
-    totalPages() {
-      return Math.ceil(this.latestArticles.length / this.pageSize);
-    }
   },
   mounted() {
     this.fetchLatestArticles();
@@ -45,16 +24,6 @@ export default {
         this.latestArticles = response.data;
       } catch (error) {
         console.error('There was an error fetching the latest articles:', error);
-      }
-    },
-    nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage++;
-      }
-    },
-    prevPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
       }
     }
   }

@@ -1,16 +1,14 @@
 <template>
   <div>
-    <h1>Najčitaniji Članci</h1>
-    <div v-for="clanak in najcitanijiClanci" :key="clanak.id">
-      <h2>{{ clanak.naslov }}</h2>
-      <p>{{ clanak.isecak }}</p>
-      <router-link :to="'/clanak/' + clanak.id">Pročitaj više</router-link>
-    </div>
+    <PaginatedGeneralArticleList :articles="najcitanijiClanci" title="Najcitaniji clanci" />
   </div>
 </template>
 
 <script>
+import PaginatedGeneralArticleList from "@/components/PaginatedGeneralArticleList";
+
 export default {
+  components: { PaginatedGeneralArticleList },
   data() {
     return {
       najcitanijiClanci: [],
@@ -26,4 +24,3 @@ export default {
   }
 };
 </script>
-

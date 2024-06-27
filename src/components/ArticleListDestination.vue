@@ -1,28 +1,22 @@
 <template>
   <div>
-    <h2>Articles</h2>
-    <table>
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Date Created</th>
-      </tr>
-      <tr v-for="article in articles" :key="article.id">
-        <td><router-link :to="'/clanak/' + article.id">{{ article.naslov }}</router-link></td>
-        <td>{{ article.autor }}</td>
-        <td>{{article.vremeKreiranja}}</td>
-      </tr>
-    </table>
+    <PaginatedGeneralArticleList :articles="articles" title="Najcitaniji clanci" />
   </div>
 </template>
 
 <script>
+import PaginatedGeneralArticleList from "@/components/PaginatedGeneralArticleList";
 
 export default {
+  components: { PaginatedGeneralArticleList },
   data() {
     return {
       articles: [],
     };
+  },
+  async mounted() {
+    const destinationId = this.$route.params.id;
+    await this.fetchArticles(destinationId);
   },
   methods: {
     async fetchArticles(destinationId) {
@@ -34,9 +28,5 @@ export default {
       }
     },
   },
-  mounted() {
-    const destinationId = this.$route.params.id;
-    this.fetchArticles(destinationId);
-  }
 };
 </script>
