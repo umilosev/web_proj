@@ -4,7 +4,7 @@
     <div>
       <p>Aktivnosti:
         <span v-for="(aktivnost, index) in article.aktivnosti" :key="aktivnost.id">
-        <router-link :to="`/activities/clanci/${aktivnost.id}`">{{ aktivnost.title }}</router-link>
+        <router-link :to="`/activities/clanci/${aktivnost.id}`">{{ aktivnost.naziv }}</router-link>
         <span v-if="index < article.aktivnosti.length - 1">, </span>
       </span>
       </p>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PaginatedGeneralArticleList :articles="articles" title="Najcitaniji clanci" />
+    <PaginatedGeneralArticleList :articles="articles" :title="'Clanci destinacije ' + destination.ime" />
   </div>
 </template>
 
@@ -12,6 +12,7 @@ export default {
   data() {
     return {
       articles: [],
+      destination: null
     };
   },
   async mounted() {
@@ -21,8 +22,11 @@ export default {
   methods: {
     async fetchArticles(destinationId) {
       try {
-        const response = await this.axios.get(`/api/clanci/clanci_for_destinacija/${destinationId}`);
-        this.articles = response.data;
+        const articlesResponse = await this.axios.get(`/api/clanci/clanci_for_destinacija/${destinationId}`);
+        const destinationResponse = await this.axios.get(`/api/destinacije/${destinationId}`);
+
+        this.articles = articlesResponse.data;
+        this.destination = destinationResponse.data;
       } catch (error) {
         console.error("There was an error fetching the articles:", error);
       }
