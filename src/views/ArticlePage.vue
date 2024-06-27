@@ -1,14 +1,22 @@
 <template>
   <div>
     <h1>{{ article.naslov }}</h1>
+    <div>
+      <p>Aktivnosti:
+        <span v-for="(aktivnost, index) in article.aktivnosti" :key="aktivnost.id">
+        <router-link :to="`/activities/clanci/${aktivnost.id}`">{{ aktivnost.title }}</router-link>
+        <span v-if="index < article.aktivnosti.length - 1">, </span>
+      </span>
+      </p>
+    </div>
     <p>{{ article.tekst }}</p>
     <p>Author: {{ article.autor }}</p>
-    <p>Created at: {{ formatDate(article.vremeKreiranja) }}</p>
+    <p>Created at: {{ article.vremeKreiranja }}</p>
 
     <h2>Comments</h2>
     <div v-for="(comment, index) in paginatedComments" :key="index">
       <p><strong>{{ comment.autorKomentara }}</strong>: {{ comment.tekst }}</p>
-      <p>Posted at: {{ formatDate(comment.datumKreiranja) }}</p>
+      <p>Posted at: {{ comment.datumKreiranja }}</p>
     </div>
 
     <div v-if="pages.length > 1">
@@ -68,14 +76,6 @@ export default {
       } catch (error) {
         console.error("Error fetching comments:", error);
       }
-    },
-    formatDate(dateArray) {
-      if (!dateArray) return '';
-      const [year, month, day, hour, minute] = dateArray;
-      return `${day}-${month}-${year} ${hour}:${minute}`;
-    },
-    changePage(page) {
-      this.currentPage = page;
     },
   }
 };

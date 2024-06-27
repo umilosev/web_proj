@@ -12,28 +12,30 @@ import ManageUsersPage from '../views/ManageUsersPage.vue';
 import DestinationList from '../components/DestinationList.vue';
 import ArticleListDestination from "@/components/ArticleListDestination.vue";
 import DirectorPage from "@/views/DirectorPage.vue";
+import ArticlesForActivityPage from "@/views/ArticlesForActivityPage";
 
 // Use VueRouter plugin
 Vue.use(VueRouter);
 
 const routes = [
-  { path: '/', component: HomePage },
-  { path: '/most-read', component: MostReadPage },
-  { path: '/destination/:id', component: DestinationPage },
-  { path: '/clanak/:id', component: ArticlePage },
-  { path: '/login', component: LoginPage },
-  { path: '/admin', component: AdminPage },
-  { path: '/admin/articles', component: ManageArticlesPage },
-  { path: '/admin/destinations', component: ManageDestinationsPage },
-  { path: '/admin/users', component: ManageUsersPage },
-  { path: '/destinations', component: DestinationList},
-  { path: '/destination/clanci/:id', component: ArticleListDestination},
-  { path: '/director', component: DirectorPage},
+    {path: '/', component: HomePage},
+    {path: '/most-read', component: MostReadPage},
+    {path: '/destination/:id', component: DestinationPage},
+    {path: '/clanak/:id', component: ArticlePage},
+    {path: '/login', component: LoginPage},
+    {path: '/admin', component: AdminPage},
+    {path: '/admin/articles', component: ManageArticlesPage},
+    {path: '/admin/destinations', component: ManageDestinationsPage},
+    {path: '/admin/users', component: ManageUsersPage},
+    {path: '/destinations', component: DestinationList},
+    {path: '/destination/clanci/:id', component: ArticleListDestination},
+    {path: '/director', component: DirectorPage},
+    {path: '/activities/clanci/:id', component: ArticlesForActivityPage}
 ];
 
 // Create router instance
 const router = new VueRouter({
-  routes
+    routes
 });
 
 export default router;

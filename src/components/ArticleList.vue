@@ -15,7 +15,7 @@
       <tr v-for="article in articles" :key="article.id">
         <td><router-link :to="'/admin/articles/' + article.id">{{ article.naslov }}</router-link></td>
         <td>{{ article.autor }}</td>
-        <td>{{ formatDate(article.vremeKreiranja) }}</td>
+        <td>{{ article.vremeKreiranja }}</td>
         <td>
           <button @click="edit(article)">Edit</button>
           <button @click="remove(article.id)">Delete</button>
@@ -60,11 +60,6 @@ export default {
         console.error("There was an error fetching the articles:", error);
       }
     },
-    formatDate(dateString) {
-      if (!dateString) return '';
-      const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'});
-    }
   },
   mounted() {
     this.fetchArticles();
