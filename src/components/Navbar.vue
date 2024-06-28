@@ -4,6 +4,13 @@
       <li><router-link to="/">Početna stranica</router-link></li>
       <li><router-link to="/most-read">Najčitanije</router-link></li>
       <li><router-link to="/destinations">Destinacije</router-link></li>
+
+      <!--
+      do we want to split director page into 2? one for uredjivaci one for admin,
+      or just show the buttons that lead to admin pages in director depending on jwt?
+      -->
+      <li><router-link to="/director" v-if="isLoggedIn">Dashboard</router-link></li>
+
       <li><router-link to="/login" v-if="!isLoggedIn">Login</router-link></li>
       <li v-if="isLoggedIn">
         <button @click="logout">Logout</button>
