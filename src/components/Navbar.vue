@@ -1,6 +1,9 @@
 <template>
   <nav>
     <ul>
+      <li v-if="isLoggedIn">
+        <router-link to="/admin">Dashboard</router-link>
+      </li>
       <li><router-link to="/">Početna stranica</router-link></li>
       <li><router-link to="/most-read">Najčitanije</router-link></li>
       <li><router-link to="/destinations">Destinacije</router-link></li>

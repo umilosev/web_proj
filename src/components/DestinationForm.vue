@@ -3,9 +3,9 @@
     <h2>{{ isEdit ? 'Edit Destination' : 'Add Destination' }}</h2>
     <form @submit.prevent="submitForm">
       <label>Name:</label>
-      <input type="text" v-model=destination.name required>
+      <input type="text" v-model= required>
       <label>Description:</label>
-      <textarea v-model=destination.description required></textarea>
+      <textarea v-model= required></textarea>
       <button type="submit">{{ isEdit ? 'Update' : 'Create' }}</button>
     </form>
   </div>
