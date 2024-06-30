@@ -5,8 +5,13 @@
 
       <!-- Name -->
       <div class="form-group">
-        <label for="name">Name:</label>
+        <label for="name">Ime:</label>
         <input type="text" id="name" v-model="editedUser.ime" required>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Prezime:</label>
+        <input type="text" id="name" v-model="editedUser.prezime" required>
       </div>
 
       <!-- Email -->
@@ -18,8 +23,8 @@
       <!-- User Type -->
       <div class="form-group">
         <label for="userType">User Type:</label>
-        <select id="userType" v-model="editedUser.tip_korisnika" required>
-          <option value="editor">Editor</option>
+        <select id="userType" v-model="editedUser.tipKorisnika" required>
+          <option value="uredjivac">Uredjivac</option>
           <option value="admin">Admin</option>
         </select>
       </div>
@@ -39,9 +44,10 @@ export default {
     return {
       editedUser: {
         id: null,
-        name: '',
+        ime: '',
+        prezime: '',
         email: '',
-        userType: ''
+        tipKorisnika: ''
       }
     };
   },
@@ -57,8 +63,13 @@ export default {
           });
     },
     updateUser() {
-      const userId = this.$route.params.id;
-      this.axios.put(`/api/korisnici/${userId}`, this.editedUser)
+      this.axios.post(`/api/korisnici/update`, {
+        ime: this.editedUser.ime,
+        prezime: this.editedUser.prezime,
+        email: this.editedUser.email,
+        tipKorisnika: this.editedUser.tipKorisnika,
+        id: this.editedUser.id
+      })
           .then(() => {
             this.$router.push('/admin/users');
           })
