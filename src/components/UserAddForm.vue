@@ -1,13 +1,17 @@
 <template>
   <div>
-    <h2>Add New User</h2>
-
-    <form @submit.prevent="handleSubmit">
+    <h3>Edit User</h3>
+    <form @submit.prevent="addUser">
 
       <!-- Name -->
       <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" id="name" v-model="newUser.username" required>
+        <label for="name">Ime:</label>
+        <input type="text" id="name" v-model="newUser.ime" required>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Prezime:</label>
+        <input type="text" id="name" v-model="newUser.prezime" required>
       </div>
 
       <!-- Email -->
@@ -18,10 +22,10 @@
 
       <!-- User Type -->
       <div class="form-group">
-        <label for="type">User Type:</label>
-        <select id="type" v-model="newUser.tip_korisnika" required>
+        <label for="userType">User Type:</label>
+        <select id="userType" v-model="newUser.tipKorisnika" required>
+          <option value="uredjivac">Uredjivac</option>
           <option value="admin">Admin</option>
-          <option value="editor">Uredjivac</option>
         </select>
       </div>
 
@@ -39,11 +43,10 @@
 
       <!-- Submit Button -->
       <div>
-        <button type="submit">Add User</button>
+        <button type="submit">Save</button>
       </div>
 
     </form>
-
   </div>
 </template>
 
@@ -52,32 +55,37 @@ export default {
   data() {
     return {
       newUser: {
-        username: '',
+        ime: '',
+        prezime: '',
         email: '',
-        tip_korisnika: 'admin',
-        password: ''
+        tipKorisnika: '',
+        password: '',
       },
       confirmPassword: ''
     };
   },
   methods: {
-    handleSubmit() {
+    addUser() {
       if (this.newUser.password !== this.confirmPassword) {
         alert("Passwords do not match.");
         return;
       }
 
-      this.axios.post('/api/korisnici', this.newUser)
-          .then(response => {
-            console.log('User added successfully', response.data);
-            // Optionally, perform additional actions after successful submission
+      this.axios.post(`/api/korisnici`, {
+        ime: this.newUser.ime,
+        prezime: this.newUser.prezime,
+        email: this.newUser.email,
+        tipKorisnika: this.newUser.tipKorisnika,
+        password: this.newUser.password
+      })
+          .then(() => {
+            this.$router.push('/admin/users');
           })
           .catch(error => {
-            console.error('Error adding user:', error);
-            // Handle error scenarios
+            console.error('Error updating user:', error);
           });
     }
-  }
+  },
 };
 </script>
 
