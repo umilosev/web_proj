@@ -13,7 +13,12 @@ import DestinationList from '../components/DestinationList.vue';
 import ArticleListDestination from "@/components/ArticleListDestination.vue";
 import DirectorPage from "@/views/DirectorPage.vue";
 import ArticlesForActivityPage from "@/views/ArticlesForActivityPage";
-import DestinationForm from "@/components/DestinationForm"
+import UserAddForm from "@/components/UserAddForm.vue";
+import UserEditForm from "@/components/UserEditForm.vue";
+import DestinationAddForm from "@/components/DestinationAddForm.vue";
+import DestinationEditForm from "@/components/DestinationEditForm.vue";
+import ArticleAddForm from "@/components/ArticleAddForm.vue";
+import ArticleEditForm from "@/components/ArticleEditForm.vue";
 
 // Use VueRouter plugin
 Vue.use(VueRouter);
@@ -32,8 +37,12 @@ const routes = [
     {path: '/destination/clanci/:id', component: ArticleListDestination},
     {path: '/director', component: DirectorPage},
     {path: '/activities/clanci/:id', component: ArticlesForActivityPage},
-    {path: '/admin/destinations/new', component: DestinationForm}
-
+    {path: '/admin/user/add', component: UserAddForm},
+    {path: '/admin/user/edit/:id', component: UserEditForm},
+    {path: '/admin/destinations/new', component: DestinationAddForm},
+    {path: '/admin/destinations/:id/edit', component: DestinationEditForm},
+    {path: '/admin/articles/new', component: ArticleAddForm},
+    {path: '/admin/articles/:id/edit', component: ArticleEditForm},
 ];
 
 // Create router instance
