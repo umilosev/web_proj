@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Edit User</h3>
+    <h3>Add User</h3>
     <form @submit.prevent="addUser">
 
       <!-- Name -->

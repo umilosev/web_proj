@@ -6,12 +6,12 @@
       <!-- Name -->
       <div class="form-group">
         <label for="name">Ime:</label>
-        <input type="text" id="name" v-model="editedUser.ime" required>
+        <input type="text" id="first_name" v-model="editedUser.ime" required>
       </div>
 
       <div class="form-group">
         <label for="name">Prezime:</label>
-        <input type="text" id="name" v-model="editedUser.prezime" required>
+        <input type="text" id="last_name" v-model="editedUser.prezime" required>
       </div>
 
       <!-- Email -->
