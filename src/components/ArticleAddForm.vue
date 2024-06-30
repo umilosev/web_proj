@@ -14,7 +14,9 @@
       <div class="form-group">
         <label for="destination">Destination:</label>
         <select id="destination" v-model="newArticle.destinationId" required>
-          <option v-for="destination in destinations" :key="destination.id" :value="destination.id">{{ destination.name }}</option>
+          <option v-for="destination in destinations" :key="destination.id" :value="destination.id">
+            {{ destination.ime }}
+          </option>
         </select>
       </div>
 
@@ -44,6 +46,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -60,23 +64,37 @@ export default {
   methods: {
     handleSubmit() {
       // Call your API to add the article
-      // Example:
-      // this.$http.post('/api/articles', this.newArticle)
-      //   .then(response => {
-      //     console.log('Article added successfully', response.data);
-      //     // Optionally, perform additional actions after successful submission
-      //   })
-      //   .catch(error => {
-      //     console.error('Error adding article:', error);
-      //     // Handle error scenarios
-      //   });
+      axios.post('/api/articles', this.newArticle)
+          .then(response => {
+            console.log('Article added successfully', response.data);
+            // Optionally, perform additional actions after successful submission
+          })
+          .catch(error => {
+            console.error('Error adding article:', error);
+            // Handle error scenarios
+          });
     },
     addActivity() {
       if (this.activityText.trim() !== '') {
         this.newArticle.activities.push(this.activityText.trim());
         this.activityText = '';
       }
+    },
+    fetchDestinations() {
+      this.axios.get('/api/destinacije')
+          .then(response => {
+            console.log('Fetched destinations:', response.data);
+            this.destinations = response.data;
+          })
+          .catch(error => {
+            console.error('Error fetching destinations:', error);
+            // Handle error scenarios
+          });
     }
+  },
+  mounted() {
+    console.log('Component mounted, fetching destinations...');
+    this.fetchDestinations();
   }
 };
 </script>

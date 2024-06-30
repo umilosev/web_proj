@@ -14,7 +14,7 @@
       <div class="form-group">
         <label for="destination">Destination:</label>
         <select id="destination" v-model="editedArticle.destinationId" required>
-          <option v-for="destination in destinations" :key="destination.id" :value="destination.id">{{ destination.name }}</option>
+          <option v-for="destination in destinations" :key="destination.id" :value="destination.id">{{ destination.ime }}</option>
         </select>
       </div>
 
@@ -99,6 +99,7 @@ export default {
   },
   mounted() {
     this.fetchArticle();
+    this.fetchDestinations();
   }
 };
 </script>
