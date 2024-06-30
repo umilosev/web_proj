@@ -32,9 +32,10 @@ export default {
     return {
       editedDestination: {
         id: null,
-        name: '',
+        ime: '',
         description: ''
-      }
+      },
+      destinations: []
     };
   },
   methods: {
@@ -49,11 +50,21 @@ export default {
             console.error('Error fetching destination:', error);
           });
     },
+    fetchDestinations(){
+      this.axios.get(`/api/destinacije`)
+      .then(response => {
+        this.destinations = response.data;
+      })
+    },
     handleSubmit() {
       // Call your API to update the destination
-      const destinationId = this.$route.params.id;
+      const existingDestination = this.destinations.find(dest => dest.ime === this.editedDestination.ime);
+      if (existingDestination) {
+        alert('Destination with this name already exists.');
+        return;
+      }
 
-       this.axios.put(`/api/destinacije/${destinationId}`, this.editedDestination)
+       this.axios.post(`/api/destinacije`, this.editedDestination)
          .then(response => {
            console.log('Destination updated successfully', response.data);
            // Optionally, perform additional actions after successful submission
@@ -65,6 +76,7 @@ export default {
     }
   },
   mounted() {
+    this.fetchDestinations()
     this.fetchDestination();
   }
 };
