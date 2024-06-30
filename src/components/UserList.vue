@@ -1,6 +1,10 @@
 <template>
   <div>
     <h2>User Management</h2>
+    <div>
+      <button @click="addUser">Add User</button>
+    </div>
+
     <table>
       <thead>
       <tr>
@@ -13,18 +17,20 @@
       </thead>
       <tbody>
       <tr v-for="user in users" :key="user.username">
-        <td>{{ user.name }}</td>
+        <td>{{ user.ime }}</td>
         <td>{{ user.email }}</td>
-        <td>{{ user.userType }}</td>
+        <td>{{ user.tipKorisnika }}</td>
         <td>{{ user.status }}</td>
         <td>
           <button @click="editUser(user)">Edit</button>
+        </td>
+        <td v-if = "user.tipKorisnika!='admin'">
           <button @click="toggleStatus(user)">{{ user.status === 'aktivan' ? 'Deactivate' : 'Activate' }}</button>
         </td>
       </tr>
       </tbody>
     </table>
-    <button @click="addUser">Add User</button>
+
 
 
   </div>

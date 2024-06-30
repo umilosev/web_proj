@@ -7,7 +7,7 @@
       <!-- Name -->
       <div class="form-group">
         <label for="name">Name:</label>
-        <input type="text" id="name" v-model="newUser.name" required>
+        <input type="text" id="name" v-model="newUser.username" required>
       </div>
 
       <!-- Email -->
@@ -19,7 +19,7 @@
       <!-- User Type -->
       <div class="form-group">
         <label for="type">User Type:</label>
-        <select id="type" v-model="newUser.type" required>
+        <select id="type" v-model="newUser.tip_korisnika" required>
           <option value="admin">Admin</option>
           <option value="editor">Uredjivac</option>
         </select>
@@ -52,9 +52,9 @@ export default {
   data() {
     return {
       newUser: {
-        name: '',
+        username: '',
         email: '',
-        type: 'admin',
+        tip_korisnika: 'admin',
         password: ''
       },
       confirmPassword: ''
@@ -67,7 +67,7 @@ export default {
         return;
       }
 
-      this.axios.post('/api/users', this.newUser)
+      this.axios.post('/api/korisnici', this.newUser)
           .then(response => {
             console.log('User added successfully', response.data);
             // Optionally, perform additional actions after successful submission
