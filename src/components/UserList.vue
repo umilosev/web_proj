@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     addUser(){
-      this.$router.push('/admin/users/add')
+      this.$router.push('/admin/user/add')
     },
     // Fetch users data from backend
     fetchUsers() {

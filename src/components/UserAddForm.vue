@@ -1,51 +1,92 @@
 <template>
-  <!-- Add User Form -->
   <div>
-    <h3>Add User</h3>
-    <form @submit.prevent="addUser">
-      <input type="text" v-model="newUser.name" placeholder="Name" required>
-      <input type="email" v-model="newUser.email" placeholder="Email" required>
-      <select v-model="newUser.userType" required>
-        <option value="editor">Editor</option>
-        <option value="admin">Admin</option>
-      </select>
-      <input type="password" v-model="newUser.password" placeholder="Password" required>
-      <input type="password" v-model="confirmPassword" placeholder="Confirm Password" required>
-      <button type="submit">Add</button>
+    <h2>Add New User</h2>
+
+    <form @submit.prevent="handleSubmit">
+
+      <!-- Name -->
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" v-model="newUser.name" required>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" v-model="newUser.email" required>
+      </div>
+
+      <!-- User Type -->
+      <div class="form-group">
+        <label for="type">User Type:</label>
+        <select id="type" v-model="newUser.type" required>
+          <option value="admin">Admin</option>
+          <option value="editor">Uredjivac</option>
+        </select>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" v-model="newUser.password" required>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" v-model="confirmPassword" required>
+      </div>
+
+      <!-- Submit Button -->
+      <div>
+        <button type="submit">Add User</button>
+      </div>
+
     </form>
+
   </div>
 </template>
 
 <script>
 export default {
-  props: ['user', 'isEdit'],
+  data() {
+    return {
+      newUser: {
+        name: '',
+        email: '',
+        type: 'admin',
+        password: ''
+      },
+      confirmPassword: ''
+    };
+  },
   methods: {
-    addUser() {
-      this.axios.get("/api/korisnici/new_user")
+    handleSubmit() {
       if (this.newUser.password !== this.confirmPassword) {
-        // Show error message
+        alert("Passwords do not match.");
         return;
       }
 
-      this.axios.post('/api/korisnici', this.newUser)
-          // eslint-disable-next-line no-unused-vars
+      this.axios.post('/api/users', this.newUser)
           .then(response => {
-            // Handle success
-            // Reset form and close it
-            this.fetchUsers();
-            this.newUser = {
-              name: '',
-              email: '',
-              userType: 'editor',
-              password: ''
-            };
-            this.confirmPassword = '';
-            this.showAddForm = false;
+            console.log('User added successfully', response.data);
+            // Optionally, perform additional actions after successful submission
           })
           .catch(error => {
             console.error('Error adding user:', error);
+            // Handle error scenarios
           });
-    },
+    }
   }
 };
 </script>
+
+<style scoped>
+.form-group {
+  margin-bottom: 1em;
+}
+
+label {
+  display: block;
+}
+</style>
