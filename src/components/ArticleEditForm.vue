@@ -13,7 +13,7 @@
       <!-- Destination -->
       <div class="form-group">
         <label for="destination">Destination:</label>
-        <select id="destination" v-model="editedArticle.destinationId" required>
+        <select id="destination" v-model="editedArticle.destinacijaId" required>
           <option v-for="destination in destinations" :key="destination.id" :value="destination.id">{{ destination.ime }}</option>
         </select>
       </div>
@@ -38,6 +38,11 @@
         <button type="submit">Save Changes</button>
       </div>
 
+      <!-- Error Messages -->
+      <div v-if="error" class="error">
+        {{ error }}
+      </div>
+
     </form>
 
   </div>
@@ -49,13 +54,14 @@ export default {
     return {
       editedArticle: {
         id: null,
-        title: '',
-        destinationId: null,
-        content: '',
+        naslov: '',
+        destinacijaId: null,
+        tekst: '',
         activities: []
       },
       activityText: '',
-      destinations: [] // Populate with existing destinations
+      destinations: [], // Populate with existing destinations
+      error: '' // To display error messages
     };
   },
   methods: {
@@ -74,21 +80,29 @@ export default {
       this.axios.get('/api/destinacije')
           .then(response => {
             this.destinations = response.data;
+            // Ensure that editedArticle.destinacijaId is set correctly if it has a value
+            if (!this.editedArticle.destinacijaId && this.destinations.length > 0) {
+              this.editedArticle.destinacijaId = this.destinations[0].id;
+            }
           })
+          .catch(error => {
+            console.error('Error fetching destinations:', error);
+          });
     },
     handleSubmit() {
       // Call your API to update the article
       const articleId = this.$route.params.id;
       // Example:
-       this.axios.put(`/api/clanci/${articleId}`, this.editedArticle)
-        .then(response => {
-           console.log('Article updated successfully', response.data);
-           // Optionally, perform additional actions after successful submission
-         })
-         .catch(error => {
-           console.error('Error updating article:', error);
-           // Handle error scenarios
-         });
+      this.axios.put(`/api/clanci/${articleId}`, this.editedArticle)
+          .then(response => {
+            console.log('Article updated successfully', response.data);
+            // Optionally, perform additional actions after successful submission
+          })
+          .catch(error => {
+            console.error('Error updating article:', error);
+            this.error = 'Error updating article: ' + error.response.data.message;
+            // Handle error scenarios
+          });
     },
     addActivity() {
       if (this.activityText.trim() !== '') {
@@ -115,5 +129,10 @@ label {
 
 textarea {
   width: 100%;
+}
+
+.error {
+  color: red;
+  margin-top: 1em;
 }
 </style>
