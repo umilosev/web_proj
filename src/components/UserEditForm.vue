@@ -6,7 +6,7 @@
       <!-- Name -->
       <div class="form-group">
         <label for="name">Name:</label>
-        <input type="text" id="name" v-model="editedUser.name" required>
+        <input type="text" id="name" v-model="editedUser.ime" required>
       </div>
 
       <!-- Email -->
@@ -18,7 +18,7 @@
       <!-- User Type -->
       <div class="form-group">
         <label for="userType">User Type:</label>
-        <select id="userType" v-model="editedUser.userType" required>
+        <select id="userType" v-model="editedUser.tip_korisnika" required>
           <option value="editor">Editor</option>
           <option value="admin">Admin</option>
         </select>
