@@ -77,7 +77,7 @@ export default {
           });
     },
     fetchDestinations(){
-      this.axios.get('/api/destinacije')
+      this.axios.get('/api/destinacije/edit')
           .then(response => {
             this.destinations = response.data;
             // Ensure that editedArticle.destinacijaId is set correctly if it has a value
@@ -91,9 +91,8 @@ export default {
     },
     handleSubmit() {
       // Call your API to update the article
-      const articleId = this.$route.params.id;
       // Example:
-      this.axios.put(`/api/clanci/${articleId}`, this.editedArticle)
+      this.axios.post(`/api/clanci/edit`, this.editedArticle)
           .then(response => {
             console.log('Article updated successfully', response.data);
             // Optionally, perform additional actions after successful submission

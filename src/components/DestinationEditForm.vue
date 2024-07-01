@@ -64,7 +64,7 @@ export default {
         return;
       }
 
-       this.axios.post(`/api/destinacije`, this.editedDestination)
+       this.axios.post(`/api/destinacije/edit`, this.editedDestination)
          .then(response => {
            console.log('Destination updated successfully', response.data);
            // Optionally, perform additional actions after successful submission

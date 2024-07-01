@@ -13,7 +13,7 @@
       </thead>
       <tbody>
       <tr v-for="article in articles" :key="article.id">
-        <td><router-link :to="'/admin/articles/' + article.id">{{ article.naslov }}</router-link></td>
+        <td><router-link :to="'/clanak/' + article.id">{{ article.naslov }}</router-link></td>
         <td>{{ article.autor }}</td>
         <td>{{ article.vremeKreiranja }}</td>
         <td>

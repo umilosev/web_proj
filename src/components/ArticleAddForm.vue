@@ -7,13 +7,13 @@
       <!-- Title -->
       <div class="form-group">
         <label for="title">Title:</label>
-        <input type="text" id="title" v-model="newArticle.title" required>
+        <input type="text" id="title" v-model="newArticle.naslov" required>
       </div>
 
       <!-- Destination -->
       <div class="form-group">
         <label for="destination">Destination:</label>
-        <select id="destination" v-model="newArticle.destinationId" required>
+        <select id="destination" v-model="newArticle.destinacijaId" required>
           <option v-for="destination in destinations" :key="destination.id" :value="destination.id">
             {{ destination.ime }}
           </option>
@@ -23,7 +23,7 @@
       <!-- Content -->
       <div class="form-group">
         <label for="content">Content:</label>
-        <textarea id="content" v-model="newArticle.content" rows="6" required></textarea>
+        <textarea id="content" v-model="newArticle.tekst" rows="6" required></textarea>
       </div>
 
       <!-- Tourist Activities -->
@@ -46,16 +46,17 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { jwtDecode } from 'jwt-decode'; // Correct the import statement
 
 export default {
   data() {
     return {
       newArticle: {
-        title: '',
-        destinationId: null,
-        content: '',
-        activities: []
+        naslov: '',
+        destinacijaId: null,
+        tekst: '',
+        activities: [],
+        autor: '' // Add author property
       },
       activityText: '',
       destinations: [] // Populate with existing destinations
@@ -64,7 +65,7 @@ export default {
   methods: {
     handleSubmit() {
       // Call your API to add the article
-      axios.post('/api/articles', this.newArticle)
+      this.axios.post('/api/clanci/add', this.newArticle)
           .then(response => {
             console.log('Article added successfully', response.data);
             // Optionally, perform additional actions after successful submission
@@ -90,11 +91,24 @@ export default {
             console.error('Error fetching destinations:', error);
             // Handle error scenarios
           });
+    },
+    decodeJWT(token) {
+      const decoded = jwtDecode(token);
+      return decoded.sub; // Return the sub claim
     }
   },
   mounted() {
     console.log('Component mounted, fetching destinations...');
     this.fetchDestinations();
+
+    // Decode the JWT and set the author
+    const token = localStorage.getItem('jwt'); // Replace with your method of getting the JWT
+    if (token) {
+      this.newArticle.autor = this.decodeJWT(token);
+      console.log('Author set to:', this.newArticle.autor);
+    } else {
+      console.error('JWT token not found');
+    }
   }
 };
 </script>

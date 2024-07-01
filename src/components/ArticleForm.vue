@@ -3,7 +3,7 @@
     <h2>{{ isEdit ? 'Edit Article' : 'Add Article' }}</h2>
     <form @submit.prevent="submitForm">
       <label>Title:</label>
-      <input type="text" v-model="zarticle.title" required />
+      <input type="text" v-model="article.title" required />
 
       <label>Destination:</label>
       <select v-model="article.destinationId" required>

@@ -63,7 +63,7 @@ export default {
           });
     },
     updateUser() {
-      this.axios.post(`/api/korisnici/update`, {
+      this.axios.post(`/api/korisnici/edit`, {
         ime: this.editedUser.ime,
         prezime: this.editedUser.prezime,
         email: this.editedUser.email,
